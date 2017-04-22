@@ -1,0 +1,87 @@
+<!--home layout for project, using jinja2 template-->
+<html>
+<head>
+<title>Major-Project School bus tracking system Backend Python</title>
+<meta name="charset" content="UTF-8"/>
+<meta name="description" content="Major project on school bus tracking syatem"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="keyword" content="Material,Flask,Python ,project,School,Bus,tracking"/>
+<meta name="author" content="Rajat Sahu"/>
+ <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons" />
+ <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="/static/css/materialize.min.css"/>
+  <script type="text/javascript" src="/static/js/lib/jquery-min.js"/></script>
+  <script src="/static/js/lib/materialize.min.js"> </script>
+	 <link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
+
+<!--import js-->
+<script type="text/javascript" src="/static/js/app.js"></script>
+<script type="text/javascript" src="/static/js/script.js"/></script>
+
+</head>
+
+<body >
+<div style="width:100%;" class="purple lighten-5" >
+
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Bus Tracker</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+		{% if 'is_admin_login' in session %}
+				{% if session['is_admin_login'] %}
+		<li ><a href="/admin/">Home</a></li>
+        <li ><a href="/admin/driver">Register Driver</a></li>
+        <li ><a href="/admin/kid">Register Kid</a></li>
+		<li ><a href="/admin/track">Track</a></li>
+		<li ><a href="/admin/feedback">Feedback</a></li>
+		<li ><a href="/admin/logout">Logout</a></li>
+				{% endif %}
+			{% else %}
+		<li ><a href="/admin/">Home</a></li>
+		<li ><a href="/admin/login">Login</a></li>
+		{% endif%}     </ul>
+      <ul class="side-nav" id="mobile-demo" >
+        {% if 'is_admin_login' in session %}
+				{% if session['is_admin_login'] %}
+		<li ><a href="/admin/">Home</a></li>
+        <li ><a href="/admin/driver">Register Driver</a></li>
+        <li ><a href="/admin/kid">Register Kid</a></li>
+		<li ><a href="/admin/track">Track</a></li>
+		<li ><a href="/admin/feedback">Feedback</a></li>
+		<li ><a href="/admin/logout">Logout</a></li>
+				{% endif %}
+			{% else %}
+		<li ><a href="/admin/">Home</a></li>
+		<li ><a href="/admin/login">Login</a></li>
+		{% endif%}
+      </ul>
+    </div>
+  </nav>
+
+<div class="container" >
+<div class="row">
+
+<div class="panel col s12 teal darken-1" style="padding:20px;border-radius:10px 10px 10px 10px;"><center>
+<span class="white-text darken-1" style="font-size:18px;text-align:center;"> School Bus Tracking System {{admin}}</span>
+</center>
+</div>
+
+<div class="card-panel col s12 cyan lighten-5" style="padding:20px;" >
+<!--this is our view where we can add partials html-->
+{% block content%}
+
+{% endblock %}
+
+</div>
+
+<div class="card-panel col s12 cyan darken-2" >
+<span class="white-text flow-text" style="font:Roboto;font-size:18px;text-align:center;width:100%;display:block;">Developed by Rajat Sahu.</span>
+</div>
+
+</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!--may be this same template be used for add and update purpose-->
+<!--admin login page validated by wtforms -->
+{% extends "layout.html" %}
+{% block content %}
+{# a macro to show fields error #}
+{% macro show_error(input_name) %}
+         {% if input_name in form.errors %}
+         <span class="my_data_error">{{ ' , '.join(form.errors[input_name]) }} </span>
+          {% endif %}
+{% endmacro %}
+<div class="row">
+
+   <form  action="" method="POST" class="col s12  card-panel brown lighten-5 black-text">
+	<div class="row">
+        <div class="col s12 card-panel teal white-text my_header_strip" >Add Kid and Parent Detail</div></div>
+      <div class="row">
+        <div class="input-field col s12 m6">
+          {{ form.kid_name(class_='validate') }}
+          <label for="kid_name" class="active">Kid Name</label>
+        {{show_error('kid_name')}}
+        </div>
+
+            <div class="input-field col s12 m6">
+          {{ form.kid_section() }}
+          <label for="kid_section" class="active">Section</label>
+            </div>
+
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12 m6">
+            {{ form.parent_name(class_='validate') }}
+          <label for="parent_name" class="active">Parent Name</label>
+        {{ show_error('parent_name') }}
+        </div>
+
+        <div class="input-field col s12 m6">
+        {{ form.email(class_='validate',type='email') }}
+        <label for="email" class="active">Parent Email</label>
+        </div>
+      {{ show_error('email') }}
+      </div>
+
+
+      <div class="row">
+        <div class="input-field col s12 m6">
+            <select id="bus" name="bus">
+            {% for x,y,z in bus_data %}
+            <option value="{{x}}">{{y}}</option>
+            {% endfor %}
+          </select>
+          <label >Select Bus</label>
+            {{ form.csrf_token }}
+        </div>
+       <span class="my_data_error">{{bus_error}}</span>
+      </div>
+
+
+       <div class="row">
+          <div class="col s12 m6">
+	  <button id="btnkid" class="waves-effect waves-light btn" type="submit" /> Save
+	    <i class="material-icons right">save</i></button>
+	  </div>
+	  </div>
+
+    </form>
+    <div class="card-panel">
+<div class="row green lighten-4">
+      <div class="col s12 card-panel teal white-text my_header_strip">Bus allocation Record </div>
+
+    <table class="striped highlight">
+        <thead>
+        <tr><th>Kid Name</th><th>Parent</th><th>Bus Allocated</th><th>email</th></tr>
+        </thead>
+        <tbody>
+        {% for l in all_parent_kid %}
+        <tr>
+            <td>{{l[2]}}</td> <td>{{l[3]}}</td><td>{{ l[7] }}</td><td>{{l[4]}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    </div>
+{% endblock %}

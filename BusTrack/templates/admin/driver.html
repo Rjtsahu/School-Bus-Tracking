@@ -1,0 +1,94 @@
+<!--may be this same template be used for add and update purpose-->
+<!--admin login page validated by wtforms -->
+{% extends "layout.html" %}
+{% block content %}
+{# a macro to show fields error #}
+{% macro show_error(input_name) %}
+{% if input_name in form.errors %}
+<span class="my_data_error">{{ ' , '.join(form.errors[input_name]) }} </span>
+{% endif %}
+{% endmacro %}
+<div class="row">
+
+    <form action="" method="POST" class="col s12  card-panel brown lighten-5 black-text">
+        <div class="row">
+            <div class="col s12 card-panel teal white-text my_header_strip">Add Driver</div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12 m6">
+                {{ form.username(class_='validate') }}
+                <label for="username" class="active">User Name or email</label>
+                {{show_error('username')}}
+            </div>
+
+            <div class="input-field col s12 m6">
+                {{ form.name(class_='validate') }}
+                <label for="name" class="active">Driver Name</label>
+                {{show_error('name')}}
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12 m6">
+                {{ form.contact(class_='validate') }}
+                <label for="contact" class="active">Contact</label>
+
+            </div>
+            <div class="input-field col s12 m6">
+                <select id="bus" name="bus">
+                    {% for x,y in bus_data %}
+                    <option value="{{x}}">{{y}}</option>
+                    {% endfor %}
+                </select>
+                <label>Select Bus</label>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="input-field col s12 m6">
+                {{ form.password(class_='validate') }}
+                <label for="password" class="active">Password</label>
+                {{ show_error('password') }}
+                {{ form.csrf_token }}
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col s12 m6">
+                <button id="btnReg" class="waves-effect waves-light btn" type="submit"/>
+                Save
+                <i class="material-icons right">save</i></button>
+            </div>
+        </div>
+    </form>
+    <div class="card-panel">
+        <div class="row green lighten-4">
+            <div class="col s12 card-panel teal white-text my_header_strip">Driver Record</div>
+
+            <table class="striped highlight">
+                <thead>
+                <tr>
+                    <th>UserId</th>
+                    <th>Name</th>
+                    <th>Bus Allocated</th>
+                    <th>Contact</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for l in driver_list %}
+                <tr>
+                    <td>{{l[0]}}</td>
+                    <td>{{l[1]}}</td>
+                    <td>{{l[2]}}</td>
+                    <td>{{l[3]}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endblock %}

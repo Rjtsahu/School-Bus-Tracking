@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+
+    <div class="col s12 card-panel brown lighten-5 black-text">
+        <div class="row">
+            <div class="col s12 card-panel teal white-text my_header_strip">Message and FeedBack</div>
+        </div>
+        <table class="striped highlight">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Message Title</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Read</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for l in feed_list %}
+            <tr>
+                <td>{{l[1]}}</td>
+                <td>{{l[3]}}
+                    <span style="visibility: hidden;display: none;" id="message{{l[0]}}">{{l[4]}}</span>
+                </td>
+                <td>{{l[5]}}</td>
+                <td>{{l[6]}}</td>
+                <td style="max-width: 10px;">
+                    <button onclick="my_modal{{l}}" type="button" style="max-width: 50px;" class="btn waves-effect waves-green ">
+                        <i class="material-icons right">rate_review</i></button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4 class="mod-title" id="mod-title">Modal Header</h4>
+     <div>
+        <!--later provide more option related to parent and driver linking-->
+         <div id="mod-other-data"></div>
+        <p class="mod-detail " id="mod-detail">
+            message description
+        </p>
+</div>
+  <div class="row" style="margin-bottom: 0;">
+    <form class="col s12">
+         <div class="col s12 card-panel teal white-text my_header_strip">Send Reply Email...</div>
+      <div class="row" style="margin-bottom: 0;margin-top: 30px;">
+          <div class="input-field col s8">
+              <input  id="mod-input-title" type="text" class="validate"/>
+            <label for="mod-input-title" >Subject of Message</label>
+
+          </div>
+        <div class="input-field col s12">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea id="mod-input-message" class="materialize-textarea"></textarea>
+          <label for="mod-input-message">Message</label>
+        </div>
+      </div>
+    </form>
+  </div>
+    </div>
+    <div class="modal-footer">
+        <button class="waves-effect waves-green btn-flat" id="mod-reply-but" type="button" onclick="">Reply</button>
+        <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+    </div>
+</div>
+
+{% endblock %}
+
+<!--code for modal-->
+<!-- Modal Trigger -->
+
+<!-- Modal Structure -->
