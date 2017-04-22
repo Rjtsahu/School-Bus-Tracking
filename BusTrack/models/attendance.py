@@ -86,8 +86,8 @@ class Attendance():
 
     # set dropped =1 to attendance table
     @staticmethod
-    def update_drop_attendance(kid_id,drop_gps,drop_time):
+    def update_drop_attendance(kid_id,drop_gps,drop_time,journey_id):
         cur=conn.execute('update attendance set drop_present=1,drop_gps=?,drop_time=? \
-                         where k_id=?',[drop_gps,drop_time,kid_id])
+                         where k_id=? and j_id=? ',[drop_gps,drop_time,kid_id,journey_id])
         conn.commit()
 

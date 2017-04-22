@@ -1,6 +1,7 @@
 from BusTrack import conn
 from BusTrack.helpers import utils
 
+
 class Parent():
     __TABLE__ = 'parent'
 
@@ -45,24 +46,33 @@ class Parent():
     @staticmethod
     def get_all_parent_with_kid():
         # get data from parent_kid view
-        cur=conn.execute('select * from parent_kid')
+        cur = conn.execute('select * from parent_kid')
         print(cur.description)
         return cur.fetchall()
 
     @staticmethod
     def get_all_parent_kid_with_bus():
         # get data from parent_kid_bus view
-        cur=conn.execute('select * from parent_kid_bus')
+        cur = conn.execute('select * from parent_kid_bus')
         print(cur.description)
         return cur.fetchall()
 
+    # -------------- code used in Parent Module--------------#
+
+    # get parent from token
     @staticmethod
-    def update_token(email,token,expire):
-        cur=conn.execute('update parent set token=?,expires=? where email=?',
-                         [token,expire,email])
+    def get_parent_id(token):
+        cur = conn.execute('select * from parent where token=? ', [token])
+        return cur.fetchone()
+
+    @staticmethod
+    def update_token(email, token, expire):
+        cur = conn.execute('update parent set token=?,expires=? where email=?',
+                           [token, expire, email])
         conn.commit()
 
-   # check if this token is allocated to any driver and is still valid
+        # check if this token is allocated to any driver and is still valid
+
     @staticmethod
     def is_valid_token(token):
         date = utils.get_date_full()
@@ -73,20 +83,31 @@ class Parent():
         else:
             return True
 
+    # check weather @param#k_id belongs to parent having token @param#token
+    @staticmethod
+    def is_kidOf(kid_id, token):
+        cur = conn.execute('select kid.id from kid inner join parent on kid.p_id=parent.id '
+                           'where kid.id=? and parent.token=? ', [kid_id, token])
+        res = cur.fetchone()
+        if res is None:
+            return False
+        else:
+            return True
+
     @staticmethod
     def get_kids(token):
-        cur=conn.execute('select kid.id,name,section,photo,bus.id,bus.b_no from kid inner join bus on kid.b_id=bus.id where kid.p_id = \
-            (select parent.id from parent where parent.token=? )',[token])
+        cur = conn.execute('select kid.id,name,section,photo,bus.id,bus.b_no from kid inner join bus on kid.b_id=bus.id where kid.p_id = \
+            (select parent.id from parent where parent.token=? )', [token])
         return Parent.kids_to_obj_list(cur.fetchall())
 
     @staticmethod
     def kids_to_obj_list(cur):
         if cur is None:
             return None
-        l=[]
+        l = []
         for c in cur:
-            k={"id":c[0],"name":c[1],"section":c[2],"photo":c[3]}
-            b={"bus_id":c[4],"bus_name":c[5]}
-            k_b={"kid":k,"bus":b}
+            k = {"id": c[0], "name": c[1], "section": c[2], "photo": c[3]}
+            b = {"bus_id": c[4], "bus_name": c[5]}
+            k_b = {"kid": k, "bus": b}
             l.append(k_b)
         return l

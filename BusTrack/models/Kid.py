@@ -34,6 +34,7 @@ class Kid():
         cur = conn.execute('select * from kid where p_id=?', (parent_id))
         return cur.fetchall()
 
+    # ---------------------code used in driver module-----------------------#
     # here j_id is known
     # get kids who whose attendance is not yet taken for this bus journey
     @staticmethod
@@ -60,14 +61,26 @@ class Kid():
 
     # get image link of this kid ,only those image for which this driver is authorized
     @staticmethod
-    def get_image(token,kid_id):
-        cur=conn.execute('select kid.photo from kid where kid.b_id=(select driver.b_id from driver where token=? \
-                         ) and kid.id=?',[token,kid_id])
-        r=cur.fetchone()
+    def get_image_for_driver(token, kid_id):
+        cur = conn.execute('select kid.photo from kid where kid.b_id=(select driver.b_id from driver where token=? \
+                         ) and kid.id=?', [token, kid_id])
+        r = cur.fetchone()
         if r is None:
             return r
         else:
             return r[0]
 
+    # get image link of this kid ,only those image for which this parent is authorized
+    @staticmethod
+    def get_image_for_parent(token,kid_id):
+        cur=conn.execute('select kid.photo from kid inner join parent on kid.p_id=parent.id  \
+            where parent.token=? and kid.id=? ',[token,kid_id])
+        r = cur.fetchone()
+        if r is None:
+            return r
+        else:
+            return r[0]
 
+            # ---------------------driver module ends------------------------#
+            # -------------------- code for parent module--------------------#
 

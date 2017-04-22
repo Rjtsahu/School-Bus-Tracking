@@ -19,7 +19,7 @@ class Feedback():
         return cur.fetchall()
 
     def add(self):
-        cur = conn.execute('insert into feedback (name,email,title,message,date,p_id,d_id) values (?,?,?,?,?,?)',
+        cur = conn.execute('insert into feedback (name,email,title,message,date,p_id,d_id) values (?,?,?,?,?,?,?)',
                            (self.name, self.email, self.title, self.message, self.date, self.parent_id, self.driver_id))
         conn.commit()
         return cur.lastrowid

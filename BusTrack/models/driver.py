@@ -73,6 +73,18 @@ class Driver():
         else:
             return j_id[0]
 
+    # check if driver has already completed @j_type ride for @date
+    @staticmethod
+    def is_ride_already_completed(userid, j_type, date=utils.get_date_only()):
+        cur = conn.execute('select * from journey inner join bus on bus.id=journey.b_id inner join driver'
+                           ' on driver.b_id=bus.id where driver.userid=? '
+                           ' and date(journey.date)=date(?) and journey.j_type=? and journey.end is not 0 ', [userid, date, j_type])
+        res = cur.fetchone()
+        if res is None:
+            return False  # no ride yet
+        else:
+            return True
+
     @staticmethod
     def logout_session(token):
         # set end journey time

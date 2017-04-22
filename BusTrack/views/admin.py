@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, redirect, url_for, request
+from flask import Blueprint, render_template, jsonify, redirect, url_for, request,flash
 from flask import session
 from functools import wraps
 from BusTrack.helpers import SessionHelper, utils
@@ -17,14 +17,16 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'is_admin_login' in session:
-            if session['is_admin_login']==True:
-                pass # ok no problem
+            if session['is_admin_login'] == True:
+                pass  # ok no problem
             else:
                 return redirect(url_for('admin.login', next=request.url))
         else:
             return redirect(url_for('admin.login', next=request.url))
         return f(*args, **kwargs)
+
     return decorated_function
+
 
 @admin.route('/')
 def root():
@@ -42,10 +44,13 @@ def login():
     if form.validate_on_submit() and request.method == 'POST':
         # check password and redirect to admin home
         from BusTrack import app
-        if app.config['ADMIN_USERNAME'] == form.username.data and  \
-                SessionHelper.is_password_correct(app.config['ADMIN_PASSWORD'],form.password.data):
+        if app.config['ADMIN_USERNAME'] == form.username.data and \
+                SessionHelper.is_password_correct(app.config['ADMIN_PASSWORD'], form.password.data):
             session['is_admin_login'] = True
             return redirect(request.args.get('next') or url_for('admin.index'))
+        else:
+            flash('incorrect credentials')
+            render_template('admin/login.html', form=form)
 
     return render_template('admin/login.html', form=form)
 
@@ -62,10 +67,11 @@ def driver():
 
         # TODO: later add option for update
         d = Driver(user_id=form.username.data, bus_id=request.form['bus']
-                   , name=form.name.data, contact=form.contact.data, password=SessionHelper.get_password_hash(form.password.data))
+                   , name=form.name.data, contact=form.contact.data,
+                   password=SessionHelper.get_password_hash(form.password.data))
         d.add()
         # clear fileds
-        form.username.data=form.name.data=form.contact.data=''
+        form.username.data = form.name.data = form.contact.data = ''
         # return render_template('admin/driver.html',form=form)
     alloc_driver = Driver.get_all_allocated()
     return render_template('admin/driver.html', form=form, bus_data=un_alloc, driver_list=alloc_driver)
@@ -87,7 +93,7 @@ def kid():
             from sqlite3 import IntegrityError
             k.add()
             # clear form field
-            form.parent_name.data=form.email.data=form.kid_name.data=form.kid_section.data=form.parent_name.data=''
+            form.parent_name.data = form.email.data = form.kid_name.data = form.kid_section.data = form.parent_name.data = ''
             # TODO: Send this generated password to Parent email
 
         else:
@@ -106,6 +112,14 @@ def feedback():
     feed = Feedback().get_all()
     return render_template('admin/feeds.html', feed_list=feed)
 
+@admin.route('/track',methods=['GET','POST'])
+@login_required
+def show_map():
+    if request.method=='GET':
+        print("get method")
+    elif request.method=='POST':
+        print("post method")
+    return render_template('/admin/track.html')
 
 @admin.route('/api/reply_email', methods=['POST'])
 @login_required
@@ -120,5 +134,5 @@ def reply_email():
 
 @admin.route('/logout')
 def logout():
-    session.pop('is_admin_login',None)
+    session.pop('is_admin_login', None)
     return redirect(url_for('admin.login'))

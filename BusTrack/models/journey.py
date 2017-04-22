@@ -45,9 +45,9 @@ class Journey():
     # update new gps location
     @staticmethod
     def update_gps(journey_id, gps):
-        cur = conn.execute('update journey set gps=?,last_update=? where id=?', (gps,utils.get_date_full() ,journey_id))
+        cur = conn.execute('update journey set gps=?,last_update=? where id=?',
+                           (gps, utils.get_date_full(), journey_id))
         conn.commit()
 
 
 
-# Journey.trans_create_journey(0,'2017-01-01',3,'aman112')

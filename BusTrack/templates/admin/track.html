@@ -1,1 +1,28 @@
 <!--html view to hold live status of all active rides-->
+{% extends "layout.html" %}
+{% block content %}
+<script type="text/javascript">
+    // code for maps
+
+        var map = new google.maps.Map(document.getElementById('map');
+        function addMarker(lat,lng,title){
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+        }
+
+        // post request for current location
+        $.post('/admin/track',function(data){
+        });
+
+
+
+</script>
+<div class="row" id="map" style="height:400px;width:100%;">
+
+</div>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBjDWU3qghzMeqgRf0DrWM5WIoKmgkrgo&callback=initMap">
+</script>
+{% endblock %}
