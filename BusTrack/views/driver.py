@@ -44,7 +44,7 @@ def login():
                 return jsonify(status="error", message="Incorrect journey type")
 
             user = Driver.get_user(u_id)
-            if user is None:
+            if not user:
                 return make_response(jsonify(status='error', message='Invalid Credential'), 403)
             name = user[0]
             pass_hash = user[1]
