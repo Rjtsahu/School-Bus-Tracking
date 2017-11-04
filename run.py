@@ -1,6 +1,3 @@
-'''
-Import flask 'app' module from BusTrack  __init__.py
-'''
 
 from BusTrack import app
 
