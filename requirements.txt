@@ -26,4 +26,3 @@ SQLAlchemy==1.1.5
 Werkzeug==0.11.15
 WTForms==2.1
 yarg==0.1.9
-pytz
