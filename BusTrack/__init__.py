@@ -20,4 +20,10 @@ app.register_blueprint(parent, url_prefix='/api/v1/parent')
 # add driver blueprint
 app.register_blueprint(driver, url_prefix='/api/v1/driver')
 
+### for testing
+from BusTrack.controllers.UserLoginController import userLoginController
+
+app.register_blueprint(userLoginController, url_prefix='/app')
+### for testing
+
 create_database()
