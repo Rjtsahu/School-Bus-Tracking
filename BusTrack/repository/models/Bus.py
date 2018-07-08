@@ -14,7 +14,7 @@ class Bus(Base):
 
     @staticmethod
     def __create_default_bus__():
-        if session.query(Bus).count == 0:
+        if session.query(Bus).count() == 0:
             default_bus = Bus()
             default_bus.name = 'test bus'
             default_bus.detail = 'default bus'

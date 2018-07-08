@@ -4,7 +4,7 @@ from BusTrack.repository.main import create_database
 import sqlite3
 
 app = Flask(__name__, instance_relative_config=True)
-conn = sqlite3.connect('data.db', check_same_thread=False)
+conn = sqlite3.connect('data_1.db', check_same_thread=False)
 conn.isolation_level = None
 db = conn.cursor()
 bcrypt = Bcrypt(app)
