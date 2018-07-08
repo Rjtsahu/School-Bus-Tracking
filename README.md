@@ -1,5 +1,4 @@
 # School-Bus-Tracking
-This is dev branch for updating project with SqlAlchemy
 Bus Tracking system with Python server and 2 Andoid apps for Parent and Driver
 <h2>This is Python Server </h2>
 <b>Project Screenshots</b>

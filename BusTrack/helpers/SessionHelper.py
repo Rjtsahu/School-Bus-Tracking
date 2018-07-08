@@ -3,7 +3,7 @@ from BusTrack import bcrypt
 
 ADMIN_LOGIN = 'is_admin_login'
 ADMIN_LOGIN_ID = 'admin_id'
-TOKEN = 'token'
+TOKEN='token'
 
 '''
 Unused method replaced by jinja2 template function
@@ -21,9 +21,7 @@ def nav_list():
     else:
         return nav_logged_out
 '''
-
-
-# checks weather admin is logged in
+    # checks weather admin is logged in
 def is_login_admin():
     if ADMIN_LOGIN in session:
         if session[ADMIN_LOGIN] == True:
@@ -34,11 +32,8 @@ def is_login_admin():
     ''''using bcryot to store password hash, key is given in projects config.py'''
 
     # generate password hash for @password
-
-
 def get_password_hash(password):
     return bcrypt.generate_password_hash(password)
-
 
 # check validity of @password with the given @pass_hash
 def is_password_correct(pass_hash, password):
