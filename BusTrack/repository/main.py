@@ -3,11 +3,13 @@ from BusTrack.repository import engine
 
 # import all relevant db models here.
 from BusTrack.repository.models.Bus import Bus
-from BusTrack.repository.models.User import User
 from BusTrack.repository.models.UserType import UserType
+from BusTrack.repository.models.User import User
 from BusTrack.repository.models.UserLogin import UserLogin
 from BusTrack.repository.models.Feedback import Feedback
 from BusTrack.repository.models.Kid import Kid
+from BusTrack.repository.models.Journey import Journey
+from BusTrack.repository.models.Location import Location
 
 
 def create_database():

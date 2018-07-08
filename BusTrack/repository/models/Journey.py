@@ -16,7 +16,7 @@ class Journey(Base):
     __tablename__ = 'journey'
 
     id = Column(Integer, primary_key=True)
-    type = Column(JourneyType, default=1)
+    type = Column(Integer, default=1)
     date = Column(DateTime())
     start_timestamp = Column(DateTime(), nullable=True)
     end_timestamp = Column(DateTime(), nullable=True)
@@ -24,3 +24,4 @@ class Journey(Base):
     last_update_timestamp = Column(DateTime(), nullable=True)
     bus_id = Column(ForeignKey('bus.id'))
     bus = relationship('Bus', backref=backref("journey", uselist=False))
+    locations = relationship('Location', backref=backref("journey", uselist=True))
