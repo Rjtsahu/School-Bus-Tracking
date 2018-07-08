@@ -3,10 +3,13 @@ from BusTrack.repository import engine
 
 # import all relevant db models here.
 from BusTrack.repository.models.Bus import Bus
+from BusTrack.repository.models.User import User
+from BusTrack.repository.models.UserType import UserType
 
 
 def create_database():
     print('creating database from given mappings')
     Base.metadata.create_all(engine)
     Bus.__create_default_bus__()
+    UserType.__create_default_role__()
     print('created mapping')
