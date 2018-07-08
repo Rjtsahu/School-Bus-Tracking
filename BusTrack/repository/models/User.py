@@ -19,3 +19,4 @@ class User(Base):
     user_role = relationship("UserType", backref=backref("user", uselist=False))
 
     full_name = first_name + ' ' + last_name
+    kids = relationship("Kid", backref=backref("user", uselist=True))

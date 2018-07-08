@@ -7,6 +7,7 @@ from BusTrack.repository.models.User import User
 from BusTrack.repository.models.UserType import UserType
 from BusTrack.repository.models.UserLogin import UserLogin
 from BusTrack.repository.models.Feedback import Feedback
+from BusTrack.repository.models.Kid import Kid
 
 
 def create_database():
