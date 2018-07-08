@@ -1,14 +1,15 @@
 from sqlalchemy import Boolean, Column, String, Integer
 from BusTrack.repository import Base, session
+from BusTrack.repository.models import STRING_LEN_SMALL, STRING_LEN_MEDIUM, STRING_LEN_LARGE
 
 
 class Bus(Base):
     __tablename__ = 'bus'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(100))
-    detail = Column(String(200))
-    vehicle_number = Column(String(40))
+    name = Column(String(STRING_LEN_MEDIUM))
+    detail = Column(String(STRING_LEN_LARGE))
+    vehicle_number = Column(String(STRING_LEN_SMALL))
     capacity = Column(Integer, default=40)
     is_active = Column(Boolean, default=True)
 
