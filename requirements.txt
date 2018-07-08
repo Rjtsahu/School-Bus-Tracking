@@ -7,6 +7,7 @@ docopt==0.6.2
 Fabric==1.13.1
 Flask==0.12
 Flask-Bcrypt==0.7.1
+Flask-SQLAlchemy==2.1
 Flask-WTF==0.14.2
 geopy==1.11.0
 idna==2.2
@@ -21,8 +22,7 @@ pycparser==2.17
 pymongo==3.4.0
 requests==2.13.0
 six==1.10.0
-SQLAlchemy==1.2
+SQLAlchemy==1.1.5
 Werkzeug==0.11.15
 WTForms==2.1
 yarg==0.1.9
-pytz
