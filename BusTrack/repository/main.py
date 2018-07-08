@@ -5,6 +5,8 @@ from BusTrack.repository import engine
 from BusTrack.repository.models.Bus import Bus
 from BusTrack.repository.models.User import User
 from BusTrack.repository.models.UserType import UserType
+from BusTrack.repository.models.UserLogin import UserLogin
+from BusTrack.repository.models.Feedback import Feedback
 
 
 def create_database():
