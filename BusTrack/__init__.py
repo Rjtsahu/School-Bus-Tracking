@@ -1,29 +1,40 @@
-from flask import Flask, send_file, abort
+from flask import Flask, send_file, abort,Blueprint
 from flask_bcrypt import Bcrypt
+from flask_restful import Resource, Api
+from BusTrack.repository.main import create_database
 import sqlite3
 
 app = Flask(__name__, instance_relative_config=True)
-conn = sqlite3.connect('data.db', check_same_thread=False)
+
+conn = sqlite3.connect('data_1.db', check_same_thread=False)
 conn.isolation_level = None
 db = conn.cursor()
 bcrypt = Bcrypt(app)
 
 from BusTrack.views.admin import admin
-from BusTrack.views.driver import driver
-from BusTrack.views.parent import parent
+# from BusTrack.views.driver import driver
+# from BusTrack.views.parent import parent
 
 # add admin blueprint
 app.register_blueprint(admin, url_prefix='/admin')
+
+# using flask restful extension to create api instead of blueprints
+
+
+'''
 # add parent blueprint
 app.register_blueprint(parent, url_prefix='/api/v1/parent')
 # add driver blueprint
 app.register_blueprint(driver, url_prefix='/api/v1/driver')
 
+### for testing
+from BusTrack.controllers.UserLoginController import userLoginController
 
-# just for testing
-@app.route('/file', methods=['GET', 'POST'])
-def send_files():
-    try:
-        return send_file('app-debug.apk', as_attachment='myapp.apk')
-    except:
-        abort(404)
+app.register_blueprint(userLoginController, url_prefix='/app')
+### for testing
+'''
+
+from BusTrack.views.rest_api import register_rest_api
+register_rest_api(app)
+
+create_database()
