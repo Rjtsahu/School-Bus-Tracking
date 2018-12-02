@@ -9,6 +9,7 @@ class UserLogin(Base):
 
     id = Column(Integer, primary_key=True)
     email = Column(String(STRING_LEN_SMALL))
+    password = Column(String(STRING_LEN_SMALL))
     phone = Column(String(LEN_MOBILE))
     is_verified = Column(Boolean, default=False)
     api_token = Column(String(STRING_LEN_LARGE))

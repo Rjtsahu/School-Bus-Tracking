@@ -1,15 +1,22 @@
-from flask import Blueprint, jsonify
-from BusTrack.services.UserLoginService import UserLoginService
+from flask_restful import Resource
+from flask import request, Response, jsonify
 from BusTrack.services.UserService import UserService
+from BusTrack.services.UserLoginService import UserLoginService
+from BusTrack.repository.schema import user_schema, users_schema
 
-userLoginController = Blueprint('controller', __name__)
 
+class UserLoginController(Resource):
+    """"
+    This API controller will handle user login logic for all roles.
+    """
 
-@userLoginController.route('/test', methods=['GET'])
-def test_service():
-    uls = UserLoginService()
-    a=uls.get_user_with_token('testtest')
-    b=uls.verify_token('testtest', 'Admin')
-    u=UserService()
-    c=u.get_users_with_role('')
-    return jsonify(c)
+    def post(self):
+        """
+        This is post method for /login api to perform login,
+        on success user session/token will be stored in database (planning to migrate to redis)
+        :return success or failure status:
+        """
+        req = request.json
+        user_login_service=UserLoginService(user=req)
+        return user_login_service.perform_login()
+
