@@ -21,3 +21,7 @@ class UserService:
     def get_users_with_role(self, user_role):
         # use join instead
         return self.db.query(User).filter(User.user_role.role_name == user_role).all()
+
+    # just for testing
+    def get_all_user(self):
+        return self.db.query(User).all()

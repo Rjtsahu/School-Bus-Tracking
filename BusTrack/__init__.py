@@ -1,10 +1,10 @@
 from flask import Flask, send_file, abort,Blueprint
 from flask_bcrypt import Bcrypt
-from flask_restful import Resource, Api
-from BusTrack.repository.main import create_database
+from flask_marshmallow import Marshmallow
 import sqlite3
 
 app = Flask(__name__, instance_relative_config=True)
+ma = Marshmallow(app)
 
 conn = sqlite3.connect('data_1.db', check_same_thread=False)
 conn.isolation_level = None
@@ -37,4 +37,5 @@ app.register_blueprint(userLoginController, url_prefix='/app')
 from BusTrack.views.rest_api import register_rest_api
 register_rest_api(app)
 
+from BusTrack.repository.main import create_database
 create_database()

@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship, backref
 from BusTrack.repository import Base
 from BusTrack.repository.models import STRING_LEN_SMALL, STRING_LEN_MEDIUM, STRING_LEN_LARGE, LEN_MOBILE
 
-
 class User(Base):
     __tablename__ = 'user'
 
@@ -20,3 +19,4 @@ class User(Base):
 
     full_name = first_name + ' ' + last_name
     kids = relationship("Kid", backref=backref("user", uselist=True))
+
