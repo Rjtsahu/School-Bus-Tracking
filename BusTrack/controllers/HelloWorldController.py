@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from BusTrack.services.UserService import UserService
-from BusTrack.repository.schema import user_schema, users_schema
+from BusTrack.repository.schema import users_schema
 
 
 class HelloWorldController(Resource):

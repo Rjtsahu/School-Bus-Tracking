@@ -1,6 +1,7 @@
 from flask_restful import Api
 from flask import Blueprint
 from BusTrack.controllers.HelloWorldController import HelloWorldController
+from BusTrack.controllers.UserLoginController import UserLoginController
 
 
 def register_rest_api(app):
@@ -12,3 +13,4 @@ def register_rest_api(app):
 
 def register_controllers(api):
     api.add_resource(HelloWorldController, '/hello')
+    api.add_resource(UserLoginController, '/login')

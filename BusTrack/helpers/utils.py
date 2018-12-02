@@ -1,15 +1,10 @@
 import random
+import string
 
 
 # some frequent utility function
 def rand(length=20):
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
-    str_len = len(chars)
-    str = ""
-    for i in range(length):
-        index = random.randint(0, str_len - 1)
-        str += chars[index]
-    return str
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
 
 
 # get date
