@@ -1,9 +1,7 @@
 from flask_restful import Resource
-from flask import request, Response, jsonify
-from BusTrack.services.UserService import UserService
+from flask import request,session
 from BusTrack.services.UserLoginService import UserLoginService
-from BusTrack.repository.schema import user_schema, users_schema
-
+from BusTrack.controllers import token_required
 
 class UserLoginController(Resource):
     """"
@@ -20,3 +18,11 @@ class UserLoginController(Resource):
         user_login_service=UserLoginService(user=req)
         return user_login_service.perform_login()
 
+    @token_required('Admin')
+    def get(self):
+        """
+        get user detail from session
+        :return user model:
+        """
+        user = session['user']
+        return user

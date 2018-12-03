@@ -1,20 +1,26 @@
-from functools import wraps
-
-from flask import Blueprint, make_response, request, jsonify
-
-from BusTrack.models.Parent import Parent
-
+from flask import make_response
+from flask import request, session, abort
+from BusTrack.services.UserLoginService import UserLoginService
+from BusTrack.repository.schema import user_schema
 
 
-# verify token
-def token_required(f,role):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'token' in request.args and Parent.is_valid_token(request.args['token']):
-            pass
-        else:
-            return make_response(jsonify(status='error', message='unauthorized user'), 403)
+# contains authorisation logic for apis
 
-        return f(*args, **kwargs)
+def token_required(role):
+    def actual_function(f):
+        def wrapper(*args, **kwargs):
+            # main logic here
+            login_service = UserLoginService()
+            if 'auth_token' in request.headers and \
+                    login_service.verify_token(request.args['auth_token'], role):
+                # set user detail to this session
+                session['user'] = user_schema.jsonify(login_service.user)
+            else:
+                return abort(401)
 
-    return decorated_function
+            return f(*args, **kwargs)
+
+        return wrapper
+
+    print('role is ', role)
+    return actual_function
