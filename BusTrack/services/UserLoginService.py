@@ -21,9 +21,10 @@ class UserLoginService:
     In case token is valid it will set self.user as the user representing token.
     """
 
-    def verify_token(self, token, role):
+    def verify_token(self, token, roles):
         user_login = self.get_user_with_token(token)
-        if user_login is None or user_login.user is None or user_login.user.user_role.role_name != role:
+        print('if roles ',user_login.user.user_role.role_name not in roles)
+        if user_login is None or user_login.user is None or user_login.user.user_role.role_name not in roles:
             return False
         self.user = user_login
         return True

@@ -1,7 +1,8 @@
 from flask_restful import Resource
-from flask import request,session
+from flask import request, session, jsonify
 from BusTrack.services.UserLoginService import UserLoginService
-from BusTrack.controllers import token_required
+from BusTrack.controllers import token_required, Roles
+
 
 class UserLoginController(Resource):
     """"
@@ -15,10 +16,10 @@ class UserLoginController(Resource):
         :return success or failure status:
         """
         req = request.json
-        user_login_service=UserLoginService(user=req)
+        user_login_service = UserLoginService(user=req)
         return user_login_service.perform_login()
 
-    @token_required('Admin')
+    @token_required([Roles.ADMIN, Roles.PARENT])
     def get(self):
         """
         get user detail from session
