@@ -31,3 +31,12 @@ def token_required(roles):
     if type(roles) != list:
         raise TypeError("roles must contains list of role from Roles class.")
     return actual_function
+
+
+def get_user():
+    if 'user' in session:
+        return session['user']
+
+
+def remove_user():
+    del session['user']
