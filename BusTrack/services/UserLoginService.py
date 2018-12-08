@@ -16,41 +16,51 @@ class UserLoginService:
         self.user = user
         self.db = db
 
-    """
-    Method to verify that token is valid for given role.
-    In case token is valid it will set self.user as the user representing token.
-    """
+    def verify_token(self, token, roles):
+        """
+         Method to verify that token is valid for given role.
+         In case token is valid it will set self.user as the user representing token.
+         """
 
-    def verify_token(self, token, role):
         user_login = self.get_user_with_token(token)
-        if user_login is None or user_login.user is None or user_login.user.user_role.role_name != role:
+        if user_login is None or user_login.user is None or user_login.user.user_role.role_name not in roles:
             return False
         self.user = user_login
         return True
 
-    """
-    Get user with given api token
-    """
-
     def get_user_with_token(self, token):
+        """
+        Get user with given api token
+        """
+
         return self.db.query(UserLogin).filter(UserLogin.api_token == token).first()
 
-    """
-    Get user associated with given credentials
-    """
-
     def get_user(self):
+        """
+        Get user associated with given credentials
+        """
+
         if self.user is None:
             raise ValueError("user object is null,pass it on class constructor.")
         return self.db.query(UserLogin).filter(
             UserLogin.email == self.user['username']) \
             .filter(UserLogin.password == self.user['password']).first()
 
-    """
-    Main method to be called that handles login logic
-    """
+    def remove_token(self, token):
+        """
+        Updates token in user_login table to null
+        :param token: api token used in auth
+        :return: None
+        """
+        record = self.db.query(UserLogin).filter(UserLogin.api_token == token).first()
+        record.api_token = ''
+        self.db.commit()
 
     def perform_login(self):
+        """
+        Main method to be called that handles login logic
+        """
+
         if self.user is None:
             raise ValueError("user object is null,pass it on class constructor.")
 
@@ -61,5 +71,5 @@ class UserLoginService:
             return {'status': 'error', 'message': 'Invalid credentials.'}
         # create new api token and update for this user
         user.api_token = rand(40)
-        session.commit()
+        self.db.commit()
         return {'status': 'ok', 'email': user.email, 'phone': user.phone, 'token': user.api_token}

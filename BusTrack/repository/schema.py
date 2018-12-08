@@ -10,9 +10,15 @@ class Schemas:
     class UserSchema(ma.Schema):
         class Meta:
             # Fields to expose
-            fields = ('first_name', 'last_name', 'phone','address')
+            fields = ('first_name', 'last_name', 'phone', 'address')
+
+    class UserLoginSchema(ma.Schema):
+        class Meta:
+            fields = ('email', 'phone', 'api_token', 'user_id')
 
 
 # prop to export
 user_schema = Schemas.UserSchema()
 users_schema = Schemas.UserSchema(many=True)
+
+user_login_schema = Schemas.UserLoginSchema()

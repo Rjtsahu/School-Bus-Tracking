@@ -1,20 +1,26 @@
-from flask import make_response
 from flask import request, session, abort
 from BusTrack.services.UserLoginService import UserLoginService
-from BusTrack.repository.schema import user_schema
+from BusTrack.repository.schema import user_login_schema
+import json
+
+
+class Roles:
+    ADMIN = 'Admin'
+    PARENT = 'Parent'
+    DRIVER = 'Driver'
 
 
 # contains authorisation logic for apis
 
-def token_required(role):
+def token_required(roles):
     def actual_function(f):
         def wrapper(*args, **kwargs):
             # main logic here
             login_service = UserLoginService()
             if 'auth_token' in request.headers and \
-                    login_service.verify_token(request.args['auth_token'], role):
+                    login_service.verify_token(request.headers['auth_token'], roles):
                 # set user detail to this session
-                session['user'] = user_schema.jsonify(login_service.user)
+                session['user'] = json.loads(user_login_schema.dumps(login_service.user).data)
             else:
                 return abort(401)
 
@@ -22,5 +28,15 @@ def token_required(role):
 
         return wrapper
 
-    print('role is ', role)
+    if type(roles) != list:
+        raise TypeError("roles must contains list of role from Roles class.")
     return actual_function
+
+
+def get_user():
+    if 'user' in session:
+        return session['user']
+
+
+def remove_user():
+    del session['user']
