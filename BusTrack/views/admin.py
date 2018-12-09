@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, redirect, url_for, request,flash
+from flask import Blueprint, render_template, jsonify, redirect, url_for, request, flash
 from flask import session
 from functools import wraps
 from BusTrack.helpers import SessionHelper, utils
@@ -112,14 +112,16 @@ def feedback():
     feed = Feedback().get_all()
     return render_template('admin/feeds.html', feed_list=feed)
 
-@admin.route('/track',methods=['GET','POST'])
+
+@admin.route('/track', methods=['GET', 'POST'])
 @login_required
 def show_map():
-    if request.method=='GET':
+    if request.method == 'GET':
         print("get method")
-    elif request.method=='POST':
+    elif request.method == 'POST':
         print("post method")
     return render_template('/admin/track.html')
+
 
 @admin.route('/api/reply_email', methods=['POST'])
 @login_required
