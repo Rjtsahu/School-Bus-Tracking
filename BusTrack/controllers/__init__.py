@@ -1,7 +1,7 @@
 from flask import request, session, abort
 from BusTrack.services.UserLoginService import UserLoginService
 from BusTrack.repository.schema import user_login_schema
-import json
+import BusTrack.helpers.JsonHelper as JsonHelper
 
 
 class Roles:
@@ -20,7 +20,7 @@ def token_required(roles):
             if 'auth_token' in request.headers and \
                     login_service.verify_token(request.headers['auth_token'], roles):
                 # set user detail to this session
-                session['user'] = json.loads(user_login_schema.dumps(login_service.user).data)
+                session['user'] = JsonHelper.to_json_serializable(user_login_schema, login_service.user)
             else:
                 return abort(401)
 

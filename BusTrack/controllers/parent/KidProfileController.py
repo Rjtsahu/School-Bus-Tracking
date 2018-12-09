@@ -14,11 +14,17 @@ class KidProfileController(Resource):
 
     @token_required([Roles.PARENT])
     def get(self, kid_id=None):
+
+        kid_profile_service = KidProfileService()
+        current_user = get_user()
+
         if kid_id is None:
             # select all kids associated to this parent
-            pass
+            result = kid_profile_service.get_kids_for_parent(current_user['user_id'])
         else:
-            kid_profile_service = KidProfileService()
-            return kid_profile_service.get(kid_id)
-        data = {'hello': 'in KidProfileController'}
-        return data
+            result = kid_profile_service.get(kid_id, current_user['user_id'])
+
+        if result is None:
+            return {'status': 'ok', 'message': 'No record found', 'data': result}
+        else:
+            return {'status': 'ok', 'data': result}
