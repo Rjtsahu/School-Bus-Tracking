@@ -14,10 +14,22 @@ class UserLoginSchema(ma.Schema):
         fields = ('email', 'phone', 'api_token', 'user_id')
 
 
+class BasicBusSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'vehicle_number')
+
+
 class KidProfileSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'name', 'section', 'photo', 'parent')
+        fields = ('id', 'name', 'section', 'photo', 'parent', 'bus')
+
     parent = f.Nested(UserSchema)
+    bus = f.Nested(BasicBusSchema)
+
+
+class KidsProfileSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'section', 'photo')
 
 
 # prop to export
@@ -27,4 +39,5 @@ users_schema = UserSchema(many=True)
 user_login_schema = UserLoginSchema()
 
 kid_profile_schema = KidProfileSchema()
-kids_profile_schema = KidProfileSchema(many=True)
+
+kids_profile_schema = KidsProfileSchema(many=True)
