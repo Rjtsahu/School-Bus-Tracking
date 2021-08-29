@@ -9,3 +9,4 @@ This is start up file for project
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+    print('server started...')
